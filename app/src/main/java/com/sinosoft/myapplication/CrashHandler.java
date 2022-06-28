@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.jakewharton.processphoenix.ProcessPhoenix;
+
 import java.util.List;
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
@@ -46,22 +48,26 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             @Override
             public void run() {
                 Looper.prepare();
-                Toast.makeText(mContext, "程序发生崩溃，正在尝试重启", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "程序发生崩溃，即将重启", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
         }).start();
+//        Intent nextIntent = new Intent(mContext, MainActivity.class);
+//        nextIntent.putExtra(EXTRA_TEXT, "Hello!");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        ProcessPhoenix.triggerRebirth(mContext);
+
 //        SystemClock.sleep(2000);
-        final Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        mContext.startActivity(intent);
-        android.os.Process.killProcess(android.os.Process.myPid());
+//        final Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(mContext.getPackageName());
+//
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//        mContext.startActivity(intent);
+//        android.os.Process.killProcess(android.os.Process.myPid());
 
 
 //        Intent intent = new Intent(mContext, MainActivity.class);
